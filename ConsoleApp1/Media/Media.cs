@@ -19,4 +19,18 @@ public class Media
         NumeroReference = numeroReference;
         NombreExemplairesDisponibles = nombreExemplairesDisponibles;
     }
+    
+    public static Media operator +(Media media, int exemplairesAjoutes)
+    {
+        if (exemplairesAjoutes > 0)
+        {
+            media.NombreExemplairesDisponibles += exemplairesAjoutes;
+        }
+        else
+        {
+            Console.WriteLine("Erreur : Le nombre d'exemplaires ajoutés doit être positif.");
+        }
+
+        return media;
+    }
 }
