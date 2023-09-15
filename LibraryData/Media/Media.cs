@@ -1,10 +1,40 @@
-﻿namespace ConsoleApp1;
+﻿namespace LibraryData;
 
 public class Media
 {
     public string Titre { get; set; }
     public int NumeroReference { get; set; }
     public int NombreExemplairesDisponibles { get; set; }
+    
+    public string getTitre()
+    {
+        return Titre;
+    }
+    
+    public void setTitre(string titre)
+    {
+        Titre = titre;
+    }
+    
+    public int getNumeroReference()
+    {
+        return NumeroReference;
+    }
+    
+    public void setNumeroReference(int numeroReference)
+    {
+        NumeroReference = numeroReference;
+    }
+    
+    public int getNombreExemplairesDisponibles()
+    {
+        return NombreExemplairesDisponibles;
+    }
+    
+    public void setNombreExemplairesDisponibles(int nombreExemplairesDisponibles)
+    {
+        NombreExemplairesDisponibles = nombreExemplairesDisponibles;
+    }
 
     public Media()
     {
