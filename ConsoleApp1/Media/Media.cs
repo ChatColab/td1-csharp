@@ -8,7 +8,7 @@ public class Media
 
     public Media()
     {
-        Titre = "Titre par défaut";
+        Titre = string.Empty;
         NumeroReference = 0;
         NombreExemplairesDisponibles = 0;
     }
@@ -19,41 +19,47 @@ public class Media
         NumeroReference = numeroReference;
         NombreExemplairesDisponibles = nombreExemplairesDisponibles;
     }
-    
-    public static Media operator +(Media media, int exemplairesAjoutes)
+
+    public static Media operator +(Media media, int nombreAjout)
     {
-        if (exemplairesAjoutes > 0)
+        // Vérifiez que le nombre d'ajout est positif
+        if (nombreAjout < 0)
         {
-            media.NombreExemplairesDisponibles += exemplairesAjoutes;
+            throw new ArgumentException("Le nombre d'ajout doit être positif ou nul.");
         }
-        else
-        {
-            Console.WriteLine("Erreur : Le nombre d'exemplaires ajoutés doit être positif.");
-        }
+
+        // Mettez à jour le nombre d'exemplaires disponibles
+        media.NombreExemplairesDisponibles += nombreAjout;
 
         return media;
     }
-    
-    public static Media operator -(Media media, int exemplairesRetires)
+
+    public static Media operator -(Media media, int nombreRetrait)
     {
-        // Vérifiez si le nombre d'exemplaires retirés est positif
-        if (exemplairesRetires > 0)
+        // Vérifiez que le nombre de retrait est positif
+        if (nombreRetrait < 0)
         {
-            // Vérifiez si le nombre d'exemplaires disponibles est suffisant
-            if (media.NombreExemplairesDisponibles >= exemplairesRetires)
-            {
-                media.NombreExemplairesDisponibles -= exemplairesRetires;
-            }
-            else
-            {
-                throw new InvalidOperationException("Le nombre d'exemplaires disponibles est insuffisant.");
-            }
-        }
-        else
-        {
-            throw new InvalidOperationException("Le nombre d'exemplaires retirés doit être positif.");
+            throw new ArgumentException("Le nombre de retrait doit être positif ou nul.");
         }
 
+        // Vérifiez si le nombre de retrait est supérieur au nombre d'exemplaires disponibles
+        if (nombreRetrait > media.NombreExemplairesDisponibles)
+        {
+            throw new InvalidOperationException(
+                "Le nombre de retrait est supérieur au nombre d'exemplaires disponibles.");
+        }
+
+        // Mettez à jour le nombre d'exemplaires disponibles
+        media.NombreExemplairesDisponibles -= nombreRetrait;
+
         return media;
+    }
+
+    // Méthode polymorphique pour afficher les informations spécifiques au média
+    public virtual void AfficherInfos()
+    {
+        Console.WriteLine($"Titre: {Titre}");
+        Console.WriteLine($"Numéro de référence: {NumeroReference}");
+        Console.WriteLine($"Nombre d'exemplaires disponibles: {NombreExemplairesDisponibles}");
     }
 }

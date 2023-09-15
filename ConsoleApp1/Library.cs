@@ -7,30 +7,27 @@ public class Library
 
     public Library()
     {
-        // Initialisez la collection de médias et la liste d'emprunts dans le constructeur
         mediaCollection = new List<Media>();
         emprunts = new List<Emprunt>();
     }
 
-    // Méthode pour ajouter un média à la bibliothèque
     public void AjouterMedia(Media media)
     {
         mediaCollection.Add(media);
     }
 
-    // Méthode pour retirer un média de la bibliothèque
     public void RetirerMedia(Media media)
     {
         mediaCollection.Remove(media);
     }
 
-    // Méthode pour emprunter un média de la bibliothèque
-    public void EmprunterMedia(Media media, Utilisateur utilisateur)
+    public void EmprunterMedia(Media media)
     {
         if (mediaCollection.Contains(media) && media.NombreExemplairesDisponibles > 0)
         {
             media.NombreExemplairesDisponibles--;
-            emprunts.Add(new Emprunt(media, utilisateur));
+            Emprunt emprunt = new Emprunt(media);
+            emprunts.Add(emprunt);
         }
         else
         {
@@ -38,10 +35,9 @@ public class Library
         }
     }
 
-    // Méthode pour retourner un média emprunté à la bibliothèque
-    public void RetournerMedia(Media media, Utilisateur utilisateur)
+    public void RetournerMedia(Media media)
     {
-        Emprunt emprunt = emprunts.Find(e => e.Media == media && e.Utilisateur == utilisateur);
+        Emprunt emprunt = emprunts.Find(e => e.Media == media);
         if (emprunt != null)
         {
             media.NombreExemplairesDisponibles++;
@@ -53,7 +49,6 @@ public class Library
         }
     }
 
-    // Méthode pour rechercher des médias par titre ou auteur
     public List<Media> RechercherMedia(string critere)
     {
         List<Media> result = new List<Media>();
@@ -67,13 +62,14 @@ public class Library
         return result;
     }
 
-    // Méthode pour lister les médias empruntés par un utilisateur spécifique
-    public List<Emprunt> ListerEmprunts(Utilisateur utilisateur)
+    public void ListerEmprunts()
     {
-        return emprunts.FindAll(e => e.Utilisateur == utilisateur);
+        foreach (Emprunt emprunt in emprunts)
+        {
+            Console.WriteLine($"Emprunt de {emprunt.Media.Titre} par {emprunt.Media.Auteur} le {emprunt.DateEmprunt}");
+        }
     }
 
-    // Méthode pour afficher les statistiques de la bibliothèque
     public void AfficherStatistiques()
     {
         int totalMedias = mediaCollection.Count;
